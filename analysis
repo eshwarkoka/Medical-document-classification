@@ -1,0 +1,13 @@
+stop word removal
+pos tagging
+stemming
+tf_idf (sparse_matrix)
+
+-----------------------------------------------------
+
+cross validation
+feature selection( Gini index and DFS)
+classification(Train and test)
+Performance analysis (F-score)
+
+

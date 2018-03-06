@@ -11,13 +11,16 @@ data_list=[]
 lcount=0
 tf=[]
 idf=[]
-dwtcount=0
-doc_with_t=[]
+dcwt=0
+#nod=[]
+nodcount=0
+#doc_count_with_t=[]
 main_col_count=0
 main_doc_count=0
 row_list_count=0
 col_list_count=-1
 for each in list1:
+	doc_count_with_t=[]
 	rootdir = '/media/eshwar/DATA/Eshwar/Projects/Text classification/Medical-document-classification/pp2/'
 	rootdir=rootdir+each
 	flist=[]
@@ -26,10 +29,10 @@ for each in list1:
 		for file in files:
 			flist.append(os.path.join(subdir, file))
 	#print(flist)
-	mainlist=[]
+	#mainlist=[]
 	#tf=[]
 	#idf=[]
-	nod=0 #number of documents
+	nodcount=0 #number of documents
 	for each in flist:
 		row_list_count+=1
 		filelist=[]
@@ -39,7 +42,7 @@ for each in list1:
 		filelist=line.split()
 		#print(filelist)
 		#print('********************************')
-		for each in filelist:
+		for each2 in filelist:
 			row_list.append(row_list_count)
 			col_list_count+=1
 			col_list.append(col_list_count)
@@ -49,10 +52,27 @@ for each in list1:
 			#print(l,sep='\t')
 			tfval=c/l
 			tf.append(round(tfval,2))
-			mainlist.append(each)
-		nod+=1
-	main_doc_count+=nod
+			#mainlist.append(each2)
+			dcount=0
+			for each3 in flist:
+				opene3 = open(each3,"r")
+				linee3 = opene3.read()
+				opene3.close()
+				each3flist=[]
+				each3flist=linee3.split()
+				if each2 in each3flist:
+					dcount+=1
+					#doc_count_with_t[dcwt]+=1
+			doc_count_with_t.append(dcount)
+			#dcwt+=1
+		nodcount+=1
+	#nod.append(nodcount)
+	#main_doc_count+=nod
+	#print(nod)
 	#nodwitht=0
+	for dc in doc_count_with_t:
+		idf.append(round(math.log(nodcount/dc),2))
+	'''
 	for each in mainlist:
 		nodwitht=0
 		#row_list_count+=1
@@ -69,17 +89,22 @@ for each in list1:
 		idf.append(round(math.log(nod/nodwitht),2))
 	#print('Length of main list: ')
 	#print(len(mainlist))
-	main_col_count+=len(mainlist)
+	'''
+	#main_col_count+=len(mainlist)
 	print('---------------tf_idf--------done for one folder-------------------------'+list1[lcount])
 	lcount+=1
+
+#print(idf)
+#print(len(doc_count_with_t))
+#print(doc_count_with_t)
 print(len(tf))
 print(len(idf))
 print(len(row_list))
 print(len(col_list))
-print('main_doc_count: ')
-print(main_doc_count)
-print('main_col_count: ')
-print(main_col_count)
+#print('main_doc_count: ')
+#print(main_doc_count)
+#print('main_col_count: ')
+#print(main_col_count)
 #print(idf)
 #data_list=[a*b for a,b in zip(row_list,col_list)]
 from operator import mul
