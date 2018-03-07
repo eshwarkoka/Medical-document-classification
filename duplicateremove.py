@@ -1,7 +1,7 @@
 import os
 import sys
 import re
-rootdir = '/media/eshwar/DATA/Eshwar/Projects/Text classification/Medical-document-classification/ohsumed-all/'
+rootdir = '/media/eshwar/DATA/Eshwar/Projects/Text classification/Medical-document-classification/ohmfew/'
 flist=[]
 for subdir, dirs, files in os.walk(rootdir):
     for file in files:
@@ -43,6 +43,20 @@ print(C02)
 print('-----------------------')
 print(C03)
 '''
-for each in folder_names:
-	print(each)
-	exec('print('+each+')')
+duplicates=[]
+oc=0
+ic=0
+s=1
+for each1 in folder_names:
+	oc+=1
+	#print(each)
+	#exec('print('+each+')')
+	exec('newlist1=list('+each1+')')
+	#print(newlist1)
+	for each2 in folder_names[s:]:
+		ic+=1
+		exec('newlist2=list('+each2+')')
+		duplicates.extend(list(set(newlist1)&set(newlist2)))
+		#print(duplicates)
+	s+=1
+print(duplicates)
