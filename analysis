@@ -1,13 +1,22 @@
-stop word removal
-pos tagging
-stemming
-tf_idf (sparse_matrix)
 
------------------------------------------------------
+4 combinations
+-------------------------------------------
+1. Gini Index + Bayesian Networks
+2. Gini Index + Decision Tree
+3. DFS + Bayesian Networks
+4. DFS + Decision Tree
+--------------------------------------------
 
-cross validation
-feature selection( Gini index and DFS)
-classification(Train and test)
-Performance analysis (F-score)
+
+*********WORK FLOW*******************
+
+1. Find documents which are related to Multi-label
+2. Delete those documents ( We are left with only single-label documents. )
+3. Now perform preprocessing on the left over single-label documents (stopword removal, stemming, tf-idf)
+4. Now perform feature selection (GI, DFS) on all the folders separately (C01,C02,...)
+5. From the result of Step 4, select number of features(300, 500,...) and apply 
+   BN and DT on each folder separately (C01, C02,...)
+6. At step 5, calculate accuracy (F-score) for each folder
+7. After step 6, we get accuracy as 4 combinations for each folder (and for each set of features(300, 500,...))
 
 
