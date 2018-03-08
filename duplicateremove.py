@@ -1,6 +1,7 @@
 import os
 import sys
-import re
+import shutil
+
 rootdir = '/media/eshwar/DATA/Eshwar/Projects/Text classification/Medical-document-classification/ohsumed-all/'
 flist=[]
 for subdir, dirs, files in os.walk(rootdir):
@@ -46,10 +47,54 @@ duplicates=[]
 s=1 #variable restricting repeated combinations
 for each1 in folder_names:
 	exec('newlist1=list('+each1+')')
+	#print(newlist1)
 	for each2 in folder_names[s:]:
 		exec('newlist2=list('+each2+')')
 		duplicates.extend(list(set(newlist1)&set(newlist2)))
 	s+=1
 
-print(duplicates)
+duplicates=list(set(duplicates))
+#print(duplicates)
 print('Number of duplicates------------'+str(len(duplicates)))
+
+for each1 in folder_names:
+	exec('list1=[]')
+	exec('list1.clear()')
+	exec('list1=list('+each1+')')
+	exec(each1+'.clear()')
+	#exec('print('+each1+')')
+	#print(list1)
+	#print(len(list1))
+	for each2 in list1:
+		if each2 in duplicates:
+			#print(each2)
+			list1.remove(each2)
+	#print('-----------After removing duplicates------------')
+	#print(list1)
+	exec(each1+'=list(list1)')
+	#exec('print('+each1+')')
+	#exec('print(len('+each1+'))')
+
+lcount=0
+for each in folder_names:
+	exec('print(len('+each+'))')
+	exec('lcount+=len('+each+')')
+print('-------------------------------------------')
+print(lcount)
+
+if not os.path.exists('single_label_docs'):
+	os.makedirs('single_label_docs')
+
+for each in folder_names:
+	newdir='single_label_docs/'+each
+	if not os.path.exists(newdir):
+		os.makedirs(newdir)
+	oldpath=rootdir+each
+	for filename in os.listdir(oldpath):
+		exec('filelist=list('+each+')')
+		if filename in filelist:
+			full_file=rootdir+'/'+each+'/'+filename
+			shutil.copy(full_file,newdir)
+
+print('-------------single_label_docs folder successfully created-----------------')
+
