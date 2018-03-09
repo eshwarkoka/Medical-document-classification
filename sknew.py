@@ -33,16 +33,16 @@ print(X_train_tfidf)
 
 X_train, X_test, y_train, y_test = train_test_split(X_train_tfidf, med.target, test_size=0.3, random_state=0)
 
-'''
 print('shape of training set')
-#print(X_train)
+print(X_train.shape)
 print('shape of test set')
-#print(X_test)
+print(X_test.shape)
 print('----------------------')
 print(y_train)
 print('----------------------')
 print(y_test)
 
+'''
 lm=linear_model.LinearRegression()
 model=lm.fit(X_train, y_train)
 predictions=lm.predict(X_test)
