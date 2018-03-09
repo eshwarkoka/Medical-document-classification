@@ -12,6 +12,7 @@ fnamelist=[]
 for each in flist:
 	fnamelist.append(each[-7:])
 
+print(len(fnamelist))
 folder_names=os.listdir(rootdir)
 print(folder_names)
 
@@ -36,6 +37,7 @@ for each in folder_names:
 	exec(each+"=[]")
 	for i in range(k,nodc):
 		exec(each+'.append(fnamelist[i])')
+	#exec('print(len('+each+'))')
 	if len(folder_names)==loopcount:
 		break
 	k=nodc
@@ -44,18 +46,25 @@ for each in folder_names:
 	loopcount+=1
 
 duplicates=[]
-s=1 #variable restricting repeated combinations
+s=0 #variable restricting repeated combinations
 for each1 in folder_names:
 	exec('newlist1=list('+each1+')')
 	#print(newlist1)
+	s+=1
 	for each2 in folder_names[s:]:
+		#print(each2)
+		newlist2=[]
+		newlist2.clear()
 		exec('newlist2=list('+each2+')')
 		duplicates.extend(list(set(newlist1)&set(newlist2)))
-	s+=1
 
 duplicates=list(set(duplicates))
 #print(duplicates)
 print('Number of duplicates------------'+str(len(duplicates)))
+
+if len(duplicates)==0:
+	print('No duplicates found !!!!!')
+	raise SystemExit
 
 for each1 in folder_names:
 	exec('list1=[]')
@@ -66,12 +75,13 @@ for each1 in folder_names:
 	#print(list1)
 	#print(len(list1))
 	for each2 in list1:
-		if each2 in duplicates:
+		if each2 not in duplicates:
 			#print(each2)
-			list1.remove(each2)
+			#list1.remove(each2)
+			exec(each1+'.append(each2)')
 	#print('-----------After removing duplicates------------')
 	#print(list1)
-	exec(each1+'=list(list1)')
+	#exec(each1+'=list(list1)')
 	#exec('print('+each1+')')
 	#exec('print(len('+each1+'))')
 
@@ -79,7 +89,7 @@ lcount=0
 for each in folder_names:
 	exec('print(len('+each+'))')
 	exec('lcount+=len('+each+')')
-print('-------------------------------------------')
+print('-----------Number of single-labelled-documents------------')
 print(lcount)
 
 if not os.path.exists('single_label_docs'):
@@ -91,10 +101,12 @@ for each in folder_names:
 		os.makedirs(newdir)
 	oldpath=rootdir+each
 	for filename in os.listdir(oldpath):
+		filelist=[]
+		filelist.clear()
 		exec('filelist=list('+each+')')
 		if filename in filelist:
 			full_file=rootdir+'/'+each+'/'+filename
 			shutil.copy(full_file,newdir)
 
-print('-------------single_label_docs folder successfully created-----------------')
+print('-------------single_label_docs folder created successfully-----------------')
 
